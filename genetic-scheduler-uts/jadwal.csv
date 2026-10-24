@@ -1,0 +1,22 @@
+id,nama,sks,dosen,rombel
+MK01,Metodologi Penelitian A,3,Felicia Sylviana S.T. M.M.,TI-5A
+MK02,Metodologi Penelitian B,3,Devi Karolita S.Kom. M.Kom. Ph.D.,TI-5B
+MK03,Analisis dan Desain Perangkat Lunak A,3,Ressa Priskila S.T. M.T.,TI-5A
+MK04,Analisis dan Desain Perangkat Lunak B,3,Deddy Ronaldo S.T. M.T.,TI-5B
+MK05,Keamanan Data dan Informasi A,3,Agus Sehatman Saragih S.T. M.Eng.,TI-5A
+MK06,Keamanan Data dan Informasi B,3,Septian Geges S.Kom. M.Kom.,TI-5B
+MK07,Pengolahan Citra Digital A,3,Deddy Ronaldo S.T. M.T.,TI-5A
+MK08,Pengolahan Citra Digital B,3,Nahumi Nugrahaningsih S.T. M.T. Ph.D.,TI-5B
+MK09,Penjaminan Mutu Perangkat Lunak,3,Deddy Ronaldo S.T. M.T.,TI-7
+MK10,Kompleksitas Algoritma A,3,Agus Sehatman Saragih S.T. M.Eng.,TI-5A
+MK11,Kompleksitas Algoritma B,3,Ariesta Lestari S.Kom. M.Cs. Ph.D.,TI-5B
+MK12,Jaringan Syaraf Tiruan A,3,Septian Geges S.Kom. M.Kom.,TI-5A
+MK13,Jaringan Syaraf Tiruan B,3,Nahumi Nugrahaningsih S.T. M.T. Ph.D.,TI-5B
+MK14,Administrasi Basis Data,3,Devi Karolita S.Kom. M.Kom. Ph.D.,TI-5
+MK15,Kecerdasan Buatan A,3,Ariesta Lestari S.Kom. M.Cs. Ph.D.,TI-5A
+MK16,Kecerdasan Buatan B,3,Rony Teguh S.Kom. M.T. Ph.D.,TI-5B
+MK17,Data Mining A,3,Nahumi Nugrahaningsih S.T. M.T. Ph.D.,TI-5A
+MK18,Data Mining B,3,Efrans Christian S.T. M.T.,TI-5B
+MK19,Visualisasi Data,3,Ariesta Lestari S.Kom. M.Cs. Ph.D.,TI-7
+MK20,Deep Learning,3,Novera Kristianti S.T. M.T.,TI-7
+MK21,Algoritma Genetik (MKP),3,Novera Kristianti S.T. M.T.,TI-7
