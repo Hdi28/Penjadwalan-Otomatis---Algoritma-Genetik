@@ -61,13 +61,31 @@ cx_prob = st.sidebar.slider("Probabilitas Crossover", 0.1, 1.0, 0.8, 0.05)
 mut_prob = st.sidebar.slider("Probabilitas Mutasi", 0.01, 0.3, 0.1, 0.01)
 
 # Daftar Ruangan & Slot Waktu Statis
-DEFAULT_ROOMS = ["Lab Komputer 1", "Ruang Teori A1", "Ruang Teori A2"]
+DEFAULT_ROOMS = ["GKTA-LT4", "GKTA-LT5", "FT3", "FT4", "FT5", "FT6", "FT7", "FT8", "FT9", "AUDIT"]
 DEFAULT_SLOTS = [
-    "Senin 08:00", "Senin 10:30", "Senin 13:30",
-    "Selasa 08:00", "Selasa 10:30", "Selasa 13:30",
-    "Rabu 08:00", "Rabu 10:30", "Rabu 13:30",
-    "Kamis 08:00", "Kamis 10:30", "Kamis 13:30",
-    "Jumat 08:00", "Jumat 10:30", "Jumat 13:30"
+    "Senin 07:00 - 09:30",
+    "Senin 09:30 - 12:00",
+    "Senin 12:00 - 14:30",
+    "Senin 14:30 - 17:00",
+    "Selasa 07:00 - 09:30",
+    "Selasa 08:40 - 11:10",
+    "Selasa 09:30 - 12:00",
+    "Selasa 12:00 - 14:30",
+    "Selasa 12:50 - 15:20",
+    "Selasa 14:30 - 17:00",
+    "Rabu 07:00 - 09:30",
+    "Rabu 09:30 - 12:00",
+    "Rabu 12:50 - 15:20",
+    "Rabu 14:30 - 17:00",
+    "Kamis 07:00 - 08:40",
+    "Kamis 08:40 - 10:20",
+    "Kamis 09:30 - 11:10",
+    "Kamis 10:20 - 12:50",
+    "Kamis 12:00 - 14:30",
+    "Kamis 12:50 - 15:20",
+    "Jumat 07:00 - 09:30",
+    "Jumat 10:20 - 12:00",
+    "Jumat 14:30 - 17:00",
 ]
 
 # --- TAMPILAN UTAMA (TABS) ---
