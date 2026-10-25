@@ -26,21 +26,13 @@ Sistem penjadwalan kuliah otomatis berbasis **Algoritma Genetika (AG)** dari nol
 
 ---
 
-## 📂 Struktur Repositori
-
-```text
-├── app.py                   # Interface utama aplikasi (Streamlit UI)
-├── scheduler_logic.py       # Kelas & logika inti Algoritma Genetika
-├── data_matkul_sem5_7.csv   # Sample dataset mata kuliah (Semester 5 & 7 S-1 TI UPR)
-├── requirements.txt         # Daftar dependensi library Python
-└── README.md                # Dokumentasi proyek
-
-
 ## 🛠️ Prasyarat & Instalasi
 1. **Clone Repositori:** Salin link yang ada pada tombol "Code", kemudian lakukan clone dengan cara buka terminal dan masukkan link yang tadi dalam format berikut "git clone [https://github.com/USERNAME/NAMA-REPOSITORI.git](https://github.com/USERNAME/NAMA-REPOSITORI.git)"
 cd NAMA-REPOSITORI
 2. **Instalasi Dependensi:** Lakukan instalasi library-library yang dibutuhkan jika belum ada "pip install streamlit pandas numpy matplotlib openpyxl".
 3. **Jalankan Program:** Buka terminal lalu masukan perintah "streamlit run app.py", dengan perintah tersebut browser akan otomatis terbuka dan menampilkan antarmuka aplikasi pada alamat.
+
+---
 
 ## 📖 Panduan Penggunaan Aplikasi
 1. Pilih Sumber Data:
@@ -54,3 +46,15 @@ cd NAMA-REPOSITORI
    - Periksa nilai Fitness Terbaik (nilai 1.0 menandakan jadwal bebas bentrok 100%).
    - Lihat tabel jadwal hasil optimasi dan unduh file hasil jadwal melalui tombol "📥 Unduh Jadwal ke CSV".
    - Amati Grafik Konvergensi Fitness untuk menganalisis kecepatan konvergensi algoritma.
+
+
+---
+
+## 📂 Struktur Repositori
+
+```text
+├── app.py                   # Interface utama aplikasi (Streamlit UI)
+├── scheduler_logic.py       # Kelas & logika inti Algoritma Genetika
+├── data_matkul_sem5_7.csv   # Sample dataset mata kuliah (Semester 5 & 7 S-1 TI UPR)
+├── requirements.txt         # Daftar dependensi library Python
+└── README.md                # Dokumentasi proyek
