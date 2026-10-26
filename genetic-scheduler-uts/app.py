@@ -3,20 +3,14 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from scheduler_logic import GeneticScheduler
 
-# Konfigurasi Halaman Streamlit
-st.set_page_config(
-    page_title="OptimaSchedule - AG Penjadwalan Kuliah",
-    page_icon="📅",
-    layout="wide"
-)
+st.set_page_config(page_title="OptimaSchedule - AG Penjadwalan Kuliah", page_icon="📅", layout="wide")
 
 st.title("📅 OptimaSchedule: Penjadwalan Kuliah Berbasis Algoritma Genetika")
-st.markdown("Unggah data mata kuliah kustommu (format CSV atau Excel) atau gunakan data bawaan sistem.")
+st.markdown("Sistem Penjadwalan Otomatis dengan Kendala Kapasitas Ruangan & Berbagai Operator Genetika.")
 
-# --- SIDEBAR: PENGATURAN PARAMETER & DATA ---
-st.sidebar.header("⚙️ Konfigurasi & Parameter")
+# --- SIDEBAR: PENGATURAN PARAMETER & OPERATOR ---
+st.sidebar.header("⚙️ Konfigurasi & Operator AG")
 
-# Pilihan Sumber Data
 data_source = st.sidebar.radio("Sumber Data Mata Kuliah:", ["Gunakan Data Bawaan (Demo)", "Unggah File Kustom (CSV/Excel)"])
 
 courses_data = []
@@ -30,80 +24,74 @@ if data_source == "Unggah File Kustom (CSV/Excel)":
             else:
                 df_upload = pd.read_excel(uploaded_file)
             
-            # Validasi kolom wajib
-            required_cols = ["id", "nama", "sks", "dosen", "rombel"]
+            required_cols = ["id", "nama", "sks", "dosen", "rombel", "kuota"]
             if all(col in df_upload.columns for col in required_cols):
                 courses_data = df_upload.to_dict(orient="records")
-                st.sidebar.success(f"Berhasil memuat {len(courses_data)} mata kuliah dari file!")
+                st.sidebar.success(f"Berhasil memuat {len(courses_data)} mata kuliah!")
             else:
-                st.sidebar.error(f"Format file salah! Kolom harus mencakup: {required_cols}")
+                st.sidebar.error(f"Kolom wajib di file: {required_cols}")
         except Exception as e:
             st.sidebar.error(f"Gagal membaca file: {e}")
-    else:
-        st.sidebar.info("Silakan unggah file CSV/Excel terlebih dahulu.")
 else:
-    # Data Bawaan Default
+    # Data Bawaan dengan atribut kuota kelas
     courses_data = [
-        {"id": "MK01", "nama": "Algoritma Genetika", "sks": 3, "dosen": "Dr. Budi", "rombel": "TI-A"},
-        {"id": "MK02", "nama": "Basis Data II", "sks": 3, "dosen": "Bu Ani", "rombel": "TI-A"},
-        {"id": "MK03", "nama": "Pemrograman Web", "sks": 3, "dosen": "Pak Eko", "rombel": "TI-A"},
-        {"id": "MK04", "nama": "Grafika Komputer", "sks": 3, "dosen": "Pak Citra", "rombel": "TI-A"},
-        {"id": "MK05", "nama": "Statistika", "sks": 2, "dosen": "Bu Dewi", "rombel": "TI-A"},
-        {"id": "MK06", "nama": "Komputasi Paralel", "sks": 3, "dosen": "Dr. Budi", "rombel": "TI-B"},
-        {"id": "MK07", "nama": "Teori Bahasa Otomata", "sks": 3, "dosen": "Pak Citra", "rombel": "TI-B"},
-        {"id": "MK08", "nama": "Manajemen Proyek", "sks": 2, "dosen": "Bu Ani", "rombel": "TI-B"},
+        {"id": "MK01", "nama": "Metodologi Penelitian A", "sks": 3, "dosen": "Felicia Sylviana", "rombel": "TI-5A", "kuota": 35},
+        {"id": "MK02", "nama": "Metodologi Penelitian B", "sks": 3, "dosen": "Devi Karolita", "rombel": "TI-5B", "kuota": 30},
+        {"id": "MK03", "nama": "Analisis & Desain PL A", "sks": 3, "dosen": "Ressa Priskila", "rombel": "TI-5A", "kuota": 35},
+        {"id": "MK04", "nama": "Analisis & Desain PL B", "sks": 3, "dosen": "Deddy Ronaldo", "rombel": "TI-5B", "kuota": 30},
+        {"id": "MK05", "nama": "Keamanan Data A", "sks": 3, "dosen": "Agus Sehatman", "rombel": "TI-5A", "kuota": 35},
+        {"id": "MK06", "nama": "Keamanan Data B", "sks": 3, "dosen": "Septian Geges", "rombel": "TI-5B", "kuota": 30},
+        {"id": "MK07", "nama": "Pengolahan Citra A", "sks": 3, "dosen": "Deddy Ronaldo", "rombel": "TI-5A", "kuota": 35},
+        {"id": "MK08", "nama": "Pengolahan Citra B", "sks": 3, "dosen": "Nahumi Nugraha", "rombel": "TI-5B", "kuota": 30},
+        {"id": "MK09", "nama": "Penjaminan Mutu PL", "sks": 3, "dosen": "Deddy Ronaldo", "rombel": "TI-7", "kuota": 40},
+        {"id": "MK10", "nama": "Kompleksitas Algoritma A", "sks": 3, "dosen": "Agus Sehatman", "rombel": "TI-5A", "kuota": 35},
     ]
 
-# Parameter AG di Sidebar
-pop_size = st.sidebar.slider("Ukuran Populasi (Population Size)", 20, 200, 50, 10)
+# Pilihan Operator Tambahan Sesuai Panduan UTS
+st.sidebar.markdown("---")
+st.sidebar.subheader("🧬 Pilihan Operator AG")
+selection_method = st.sidebar.selectbox("Metode Seleksi", ["Tournament", "Roulette Wheel"])
+crossover_method = st.sidebar.selectbox("Metode Crossover", ["Single-Point", "Uniform"])
+
+# Parameter AG
+pop_size = st.sidebar.slider("Ukuran Populasi", 20, 200, 50, 10)
 max_gen = st.sidebar.slider("Maksimal Generasi", 50, 500, 100, 25)
 cx_prob = st.sidebar.slider("Probabilitas Crossover", 0.1, 1.0, 0.8, 0.05)
 mut_prob = st.sidebar.slider("Probabilitas Mutasi", 0.01, 0.3, 0.1, 0.01)
 
-# Daftar Ruangan & Slot Waktu Statis
-DEFAULT_ROOMS = ["GKTA-LT4", "GKTA-LT5", "FT3", "FT4", "FT5", "FT6", "FT7", "FT8", "FT9", "AUDIT"]
-DEFAULT_SLOTS = [
-    "Senin 07:00 - 09:30",
-    "Senin 09:30 - 12:00",
-    "Senin 12:00 - 14:30",
-    "Senin 14:30 - 17:00",
-    "Selasa 07:00 - 09:30",
-    "Selasa 08:40 - 11:10",
-    "Selasa 09:30 - 12:00",
-    "Selasa 12:00 - 14:30",
-    "Selasa 12:50 - 15:20",
-    "Selasa 14:30 - 17:00",
-    "Rabu 07:00 - 09:30",
-    "Rabu 09:30 - 12:00",
-    "Rabu 12:50 - 15:20",
-    "Rabu 14:30 - 17:00",
-    "Kamis 07:00 - 08:40",
-    "Kamis 08:40 - 10:20",
-    "Kamis 09:30 - 11:10",
-    "Kamis 10:20 - 12:50",
-    "Kamis 12:00 - 14:30",
-    "Kamis 12:50 - 15:20",
-    "Jumat 07:00 - 09:30",
-    "Jumat 10:20 - 12:00",
-    "Jumat 14:30 - 17:00",
+# Data Ruangan beserta Kapasitasnya (untuk validasi kendala kapasitas)
+DEFAULT_ROOMS = [
+    {"nama": "FT6", "kapasitas": 50},
+    {"nama": "FT7", "kapasitas": 50},
+    {"nama": "FT8", "kapasitas": 50},
+    {"nama": "FT9", "kapasitas": 90},
+    {"nama": "audit", "kapasitas": 120},
 ]
 
-# --- TAMPILAN UTAMA (TABS) ---
-tab1, tab2, tab3 = st.tabs(["🚀 Jalankan Optimasi", "📊 Lihat Data Mata Kuliah", "ℹ️ Panduan Format File"])
+DEFAULT_SLOTS = [
+    # Senin
+    "Senin 07:00", "Senin 09:30", "Senin 12:00", "Senin 14:30", "Senin 16:30",
+    # Selasa
+    "Selasa 07:00", "Selasa 09:30", "Selasa 12:00", "Selasa 14:30", "Selasa 16:30",
+    # Rabu
+    "Rabu 07:00", "Rabu 09:30", "Rabu 12:00", "Rabu 14:30", "Rabu 16:30",
+    # Kamis
+    "Kamis 07:00", "Kamis 09:30", "Kamis 12:00", "Kamis 14:30", "Kamis 16:30",
+    # Jumat
+    "Jumat 07:00", "Jumat 09:30", "Jumat 12:00", "Jumat 14:30", "Jumat 16:30"
+]
+
+tab1, tab2, tab3 = st.tabs(["🚀 Jalankan Optimasi", "📊 Data Mata Kuliah & Ruangan", "ℹ️ Informasi Kendala"])
 
 with tab1:
     st.subheader("Eksekusi Algoritma Penjadwalan")
-    
     if len(courses_data) == 0:
-        st.warning("⚠️ Belum ada data mata kuliah yang dimuat. Silakan pilih data bawaan atau unggah file di sidebar.")
+        st.warning("⚠️ Data mata kuliah kosong.")
     else:
-        st.write(f"Total mata kuliah yang akan dijadwalkan: **{len(courses_data)} sesi**")
-        
         if st.button("Mulai Jalankan AG", type="primary"):
             progress_bar = st.progress(0)
             status_text = st.empty()
             
-            # Panggil kelas logika dari file terpisah
             scheduler = GeneticScheduler(
                 courses=courses_data,
                 rooms=DEFAULT_ROOMS,
@@ -111,25 +99,23 @@ with tab1:
                 pop_size=pop_size,
                 max_gen=max_gen,
                 cx_prob=cx_prob,
-                mut_prob=mut_prob
+                mut_prob=mut_prob,
+                selection_method=selection_method,
+                crossover_method=crossover_method
             )
             
             best_ind, best_fit, h_best, h_avg, sol_gen = scheduler.run(progress_bar, status_text)
             
             st.success("Optimasi Selesai!")
             
-            # Metrik Hasil
             col1, col2, col3 = st.columns(3)
             col1.metric("Fitness Terbaik", f"{best_fit:.4f}")
-            col2.metric("Status Jadwal", "Valid (Bebas Bentrok)" if best_fit == 1.0 else "Ada Pelanggaran Minor")
+            col2.metric("Status Jadwal", "Valid (Bebas Bentrok)" if best_fit == 1.0 else "Ada Pelanggaran")
             col3.metric("Solusi Ditemukan pada Gen", sol_gen if sol_gen is not None else "> Max Gen")
             
-            # Tabel Hasil Jadwal
             st.subheader("📋 Jadwal Kuliah Optimal Terpilih")
             schedule_data = []
-            loop_length = min(len(courses_data), len(best_ind))
-            
-            for idx in range(loop_length):
+            for idx in range(min(len(courses_data), len(best_ind))):
                 course = courses_data[idx]
                 schedule_data.append({
                     "Kode": course["id"],
@@ -137,48 +123,37 @@ with tab1:
                     "SKS": course["sks"],
                     "Dosen": course["dosen"],
                     "Rombel": course["rombel"],
-                    "Hari & Slot Waktu": best_ind[idx]["slot"],
+                    "Kuota": course["kuota"],
+                    "Hari & Slot": best_ind[idx]["slot"],
                     "Ruangan": best_ind[idx]["room"]
                 })
             
             df_schedule = pd.DataFrame(schedule_data)
             st.dataframe(df_schedule, use_container_width=True)
             
-            # Tombol Ekspor CSV
             csv = df_schedule.to_csv(index=False).encode('utf-8')
-            st.download_button(
-                label="📥 Unduh Jadwal ke CSV",
-                data=csv,
-                file_name="jadwal_kuliah_optimal.csv",
-                mime="text/csv",
-            )
+            st.download_button("📥 Unduh Jadwal ke CSV", data=csv, file_name="jadwal_optimal_uts.csv", mime="text/csv")
             
-            # Grafik Konvergensi Fitness
-            st.subheader("📈 Grafik Konvergensi Fitness per Generasi")
+            st.subheader("📈 Grafik Konvergensi Fitness")
             fig, ax = plt.subplots(figsize=(10, 4))
             ax.plot(h_best, label="Fitness Terbaik", color="blue", linewidth=2)
             ax.plot(h_avg, label="Fitness Rata-rata", color="orange", linestyle="--")
             ax.set_xlabel("Generasi")
-            ax.set_ylabel("Nilai Fitness")
-            ax.set_title("Grafik Peningkatan Kualitas Solusi Algoritma Genetika")
+            ax.set_ylabel("Fitness")
             ax.legend()
             ax.grid(True)
             st.pyplot(fig)
 
 with tab2:
-    st.subheader("Pratinjau Data Mata Kuliah Aktif")
-    if len(courses_data) > 0:
-        st.dataframe(pd.DataFrame(courses_data), use_container_width=True)
-    else:
-        st.info("Belum ada data.")
+    st.subheader("Data Referensi Ruangan & Kapasitas")
+    st.dataframe(pd.DataFrame(DEFAULT_ROOMS), use_container_width=True)
+    st.subheader("Data Mata Kuliah Aktif")
+    st.dataframe(pd.DataFrame(courses_data), use_container_width=True)
 
 with tab3:
-    st.subheader("📄 Panduan Format File Unggahan (.csv / .xlsx)")
     st.markdown("""
-    Jika kamu ingin mengunggah data sendiri, pastikan file memiliki kolom dengan nama header berikut:
-    * `id`: Kode unik mata kuliah (contoh: `MK01`)
-    * `nama`: Nama mata kuliah (contoh: `Pemrograman Web`)
-    * `sks`: Jumlah SKS dalam bentuk angka (contoh: `3`)
-    * `dosen`: Nama dosen pengampu (contoh: `Dr. Budi`)
-    * `rombel`: Kelas atau rombongan mahasiswa (contoh: `TI-A`)
+    ### Penambahan Fitur Sesuai Panduan UTS:
+    1. **Operator Seleksi Tambahan:** Mendukung *Tournament Selection* dan *Roulette Wheel Selection*.
+    2. **Operator Crossover Tambahan:** Mendukung *Single-Point Crossover* dan *Uniform Crossover*.
+    3. **Kendala Kapasitas Ruangan:** Sistem otomatis memberikan penalti jika kapasitas ruangan kurang dari jumlah kuota mahasiswa pada mata kuliah tersebut.
     """)
