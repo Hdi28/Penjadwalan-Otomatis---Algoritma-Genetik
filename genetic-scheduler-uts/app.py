@@ -81,6 +81,7 @@ DEFAULT_SLOTS = [
     "Jumat 07:00", "Jumat 09:30", "Jumat 12:00", "Jumat 14:30", "Jumat 16:30"
 ]
 
+# --- TAMPILAN UTAMA ---
 tab1, tab2, tab3 = st.tabs(["🚀 Jalankan Optimasi", "📊 Data Mata Kuliah & Ruangan", "ℹ️ Informasi Kendala"])
 
 with tab1:
@@ -108,11 +109,19 @@ with tab1:
             
             st.success("Optimasi Selesai!")
             
-            col1, col2, col3 = st.columns(3)
-            col1.metric("Fitness Terbaik", f"{best_fit:.4f}")
-            col2.metric("Status Jadwal", "Valid (Bebas Bentrok)" if best_fit == 1.0 else "Ada Pelanggaran")
-            col3.metric("Solusi Ditemukan pada Gen", sol_gen if sol_gen is not None else "> Max Gen")
+            # --- TAMPILAN METRIK HASIL (TERMASUK FITNESS RATA-RATA POPULASI AKHIR) ---
+            final_avg_fitness = h_avg[-1]  # Nilai fitness rata-rata dari generasi terakhir
             
+            col1, col2, col3, col4 = st.columns(4)
+            col1.metric("Fitness Terbaik Akhir", f"{best_fit:.4f}")
+            col2.metric("Fitness Rata-Rata Akhir", f"{final_avg_fitness:.4f}")
+            col3.metric("Status Jadwal", "Valid (Bebas Bentrok)" if best_fit == 1.0 else "Ada Pelanggaran")
+            col4.metric("Solusi Ditemukan Gen Ke-", sol_gen if sol_gen is not None else "> Max Gen")
+            
+            # Tabel Ringkasan Hasil Evaluasi
+            st.info(f"📌 **Ringkasan Hasil Evaluasi:** Dari populasi sebanyak **{pop_size}** individu pada generasi terakhir, rata-rata tingkat fitness populasi mencapai **{final_avg_fitness:.4f}**, dengan nilai individu terbaik mencapai **{best_fit:.4f}**.")
+            
+            # Tabel Hasil Jadwal Kuliah
             st.subheader("📋 Jadwal Kuliah Optimal Terpilih")
             schedule_data = []
             for idx in range(min(len(courses_data), len(best_ind))):
@@ -131,15 +140,18 @@ with tab1:
             df_schedule = pd.DataFrame(schedule_data)
             st.dataframe(df_schedule, use_container_width=True)
             
+            # Ekspor CSV
             csv = df_schedule.to_csv(index=False).encode('utf-8')
             st.download_button("📥 Unduh Jadwal ke CSV", data=csv, file_name="jadwal_optimal_uts.csv", mime="text/csv")
             
-            st.subheader("📈 Grafik Konvergensi Fitness")
+            # Grafik Konvergensi Fitness
+            st.subheader("📈 Grafik Konvergensi Fitness per Generasi")
             fig, ax = plt.subplots(figsize=(10, 4))
-            ax.plot(h_best, label="Fitness Terbaik", color="blue", linewidth=2)
-            ax.plot(h_avg, label="Fitness Rata-rata", color="orange", linestyle="--")
+            ax.plot(h_best, label="Fitness Terbaik (Best Fitness)", color="blue", linewidth=2)
+            ax.plot(h_avg, label="Fitness Rata-rata (Avg Fitness)", color="orange", linestyle="--")
             ax.set_xlabel("Generasi")
-            ax.set_ylabel("Fitness")
+            ax.set_ylabel("Nilai Fitness")
+            ax.set_title("Perkembangan Kualitas Populasi Selama Proses Evolusi")
             ax.legend()
             ax.grid(True)
             st.pyplot(fig)
@@ -152,8 +164,7 @@ with tab2:
 
 with tab3:
     st.markdown("""
-    ### Penambahan Fitur Sesuai Panduan UTS:
-    1. **Operator Seleksi Tambahan:** Mendukung *Tournament Selection* dan *Roulette Wheel Selection*.
-    2. **Operator Crossover Tambahan:** Mendukung *Single-Point Crossover* dan *Uniform Crossover*.
-    3. **Kendala Kapasitas Ruangan:** Sistem otomatis memberikan penalti jika kapasitas ruangan kurang dari jumlah kuota mahasiswa pada mata kuliah tersebut.
+    ### Penambahan Indikator Layar:
+    * **Fitness Terbaik Akhir:** Menampilkan nilai fitness dari individu terbaik di generasi terakhir.
+    * **Fitness Rata-Rata Akhir:** Menampilkan rata-rata kualitas seluruh kromosom dalam populasi pada generasi terakhir.
     """)
