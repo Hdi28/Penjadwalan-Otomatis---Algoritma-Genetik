@@ -163,8 +163,12 @@ with tab2:
     st.dataframe(pd.DataFrame(courses_data), use_container_width=True)
 
 with tab3:
+    st.subheader("Aturan Kendala (Constraints)")
     st.markdown("""
-    ### Penambahan Indikator Layar:
-    * **Fitness Terbaik Akhir:** Menampilkan nilai fitness dari individu terbaik di generasi terakhir.
-    * **Fitness Rata-Rata Akhir:** Menampilkan rata-rata kualitas seluruh kromosom dalam populasi pada generasi terakhir.
+    - **Kendala Keras (Hard Constraints - Wajib 100% terpenuhi):**
+      1. **Dosen:** Tidak boleh mengajar dua mata kuliah berbeda di slot waktu yang sama.
+      2. **Ruangan:** Tidak boleh ada dua mata kuliah yang memakai ruangan sama di slot waktu yang sama.
+      3. **Rombel Mahasiswa:** Mahasiswa dalam satu kelas/rombel tidak boleh memiliki jadwal kuliah yang bertabrakan di waktu yang sama.
+    - **Kendala Lunak (Soft Constraints - Untuk pengembangan tahap UAS):**
+    - Preferensi jam mengajar dosen dan jeda waktu istirahat mahasiswa.
     """)
