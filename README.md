@@ -8,7 +8,7 @@ Sistem penjadwalan kuliah otomatis berbasis **Algoritma Genetika (AG)** dari nol
 
 * **Hadi Setiawan** (2430205030016) - *Programmer Inti AG*
 * **Marcel J. Lion** (2430305030001]) - *Ketua / Analis Masalah*
-* **Marshandy Ruben** (2430205030031) - *Programmer Fitness & Validasi*
+* **Marshandy Ruben** (2430305030031) - *Programmer Fitness & Validasi*
 * **Dwi Aprezza Putra** (2430305030005) - *Analis Eksperimen*
 * **Salman Amario Simpati** (2430105030023) - *Penulis & Presenter*
 
