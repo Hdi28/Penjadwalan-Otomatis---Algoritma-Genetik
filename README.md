@@ -7,10 +7,10 @@ Sistem penjadwalan kuliah otomatis berbasis **Algoritma Genetika (AG)** dari nol
 ## 👥 Anggota Kelompok & Pembagian Peran
 
 * **Hadi Setiawan** (2430205030016) - *Programmer Inti AG*
-* **[Nama Anggota 2]** ([NIM]) - *Ketua / Analis Masalah*
-* **[Nama Anggota 3]** ([NIM]) - *Programmer Fitness & Validasi*
-* **[Nama Anggota 4]** ([NIM]) - *Analis Eksperimen*
-* **[Nama Anggota 5]** ([NIM]) - *Penulis & Presenter*
+* **Marcel J. Lion** (2430305030001]) - *Ketua / Analis Masalah*
+* **Marshandy Ruben** (2430205030031) - *Programmer Fitness & Validasi*
+* **Dwi Aprezza Putra** (2430305030005) - *Analis Eksperimen*
+* **Salman Amario Simpati** (2430105030023) - *Penulis & Presenter*
 
 **Dosen Pengampu / Kolaborator Repositori:** Novera Kristianti, S.T., M.T. (`noverara@gmail.com`)
 
