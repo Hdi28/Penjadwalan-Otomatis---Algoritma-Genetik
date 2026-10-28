@@ -27,7 +27,7 @@ Sistem penjadwalan kuliah otomatis berbasis **Algoritma Genetika (AG)** dari nol
 ---
 
 ## 🛠️ Prasyarat & Instalasi
-1. **Clone Repositori:** Salin link yang ada pada tombol "Code", kemudian lakukan clone dengan cara buka terminal dan masukkan link yang tadi dalam format berikut "git clone [https://github.com/USERNAME/NAMA-REPOSITORI.git](https://github.com/USERNAME/NAMA-REPOSITORI.git)"
+1. **Clone Repositori:** Salin link yang ada pada tombol "Code", kemudian lakukan clone dengan cara buka terminal dan masukkan link yang tadi dalam format berikut "git clone https://github.com/Hdi28/Penjadwalan-Otomatis---Algoritma-Genetik.git"
 cd NAMA-REPOSITORI
 2. **Instalasi Dependensi:** Lakukan instalasi library-library yang dibutuhkan jika belum ada "pip install streamlit pandas numpy matplotlib openpyxl".
 3. **Jalankan Program:** Buka terminal lalu masukan perintah "streamlit run app.py", dengan perintah tersebut browser akan otomatis terbuka dan menampilkan antarmuka aplikasi pada alamat.
